@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /*
+//  方法一：有限状态机， 在状态转化时统计答案。
+时间复杂度：O(n)  一次循环遍历数组
+空间复杂度：O(1)  没有使用数组存储
+      // var longestMountain = function (arr) {
+      //   // 爬山位置 枚举变量
+      //   const mountaionPosition = {
+      //     up: 'up',
+      //     down: 'down',
+      //     invalid: 'invalid'
+      //   }
+
+      //   // 状态
+      //   let maxLen = 0, currLen = 0, status = mountaionPosition.invalid;
+
+      //   // 三种可能的状态：爬坡，下坡，平坡
+      //   // 从1开始是为了让i和i-1比较
+      //   for (let i = 1; i < arr.length; i++) {
+      //     if (arr[i - 1] < arr[i]) {//爬坡
+      //       switch (status) {
+      //         case 'up':
+      //           // 一直都是爬坡，那么山长度+1
+      //           currLen++;
+      //           break;
+      //         default:
+      //           // 前一个山爬完，那么计算最长的山，然后重新从2开始，因为山i比i-1高，此时长度为2
+      //           maxLen = Math.max(maxLen, currLen);
+      //           currLen = 2;
+      //           break;
+      //       }
+      //       status = mountaionPosition.up;
+      //     } else if (arr[i - 1] > arr[i]) { //下坡
+      //       switch (status) {
+      //         case 'up':
+      //         case 'down':
+      //           // 刚过山峰或下坡，依旧在山上
+      //           currLen++;
+      //           status = mountaionPosition.down;
+      //           break;
+      //         default:
+      //         //并没有开始一个山，所以不用比较,也不用修改位置的状态
+      //       }
+
+      //     } else { //其他情况
+      //       switch (status) {
+      //         case 'down':
+      //           // 结束一个山
+      //           maxLen = Math.max(maxLen, currLen);
+
+      //           break;
+      //         default:
+
+      //       }
+      //       currLen = 0;
+      //       status = mountaionPosition.invalid;
+      //     }
+      //   }
+      //   // 如果到结尾都是下坡，那么最后一个山没有计算
+      //   if (status === 'down' && currLen > 0) {
+      //     maxLen = Math.max(maxLen, currLen);
+      //   }
+      //   return maxLen;
+      // };
+      //   debugger;
+   */
+  
+     
+  
+
+/*
+ //    方法2：枚举山顶
+    // 两次循环，从左到右和从右到左
+    // 从左到右循环，一个数组，存储山峰左边的长度
+    // 从右到左循环，计算山的长度，取出最大值
+
+    时间：O(n)    两次遍历，但2省略
+    空间：O(n)    数组存储山峰左侧长度
+    */
+      var longestMountain = function (arr) {
+    
+    let peekLeft = [];
+    let maxLen = 0;
+    let peekRight = 0;
+    peekLeft[0] = 0;
+    // 从左到右
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i - 1] < arr[i]) {
+        peekLeft[i] = peekLeft[i - 1] + 1;
+      } else {
+        peekLeft[i] = 0;
+      }
+    }
+    // 从右到左
+    for (let i = arr.length - 1; i > 0; i--) {
+      // 计算山峰右侧的长度
+      if (arr[i - 1] > arr[i]) {
+        peekRight++;
+      } else {
+        peekRight = 0;
+      }
+      // 判断是否为山
+      if (peekLeft[i - 1] > 0 && peekRight > 0) {
+        maxLen = Math.max(maxLen, peekRight + peekLeft[i - 1] + 1);
+      }
+
+    }
+    return maxLen;
+  };
+
+  console.log(longestMountain([1, 2, 3, 2, 1]));
+ </script>
+</body>
+</html>

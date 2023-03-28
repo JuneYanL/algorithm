@@ -1,0 +1,21 @@
+body {
+  width: 100vh;
+  height: 100vh;
+}
+.abs {
+  position: absolute;
+}
+.rel {
+  position: relative;
+}
+.img {
+  display: inline-block;
+  margin: 100px 500px;
+}
+.spot {
+  top: -27px;
+  left: 50%;
+}
+/* .rotate {
+  transform: rotate(120deg);
+} */
